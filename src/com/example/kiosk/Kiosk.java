@@ -22,7 +22,7 @@ public class Kiosk {
                 System.out.printf("%d. %s\n", i + 1, menus.get(i).menuCategory);
             }
             System.out.println("0. 종료");
-            System.out.println("번호를 선택하세요 : ");
+            System.out.printf("번호를 선택하세요 : ");
 
             try {
                 int choice = sc.nextInt();
@@ -37,7 +37,7 @@ public class Kiosk {
                 //99처럼 숫자라는 자료형은 맞지만 없는 메뉴 번호 선택시는 잡아주질 못함.
                 //그래서 범위를 벗어난 숫자 검증 로직 추가
                 if (choice < 1 || choice > menus.size()) {
-                    System.out.printf("없는 번호입니다. 다시 입력해주세요.");
+                    System.out.println("없는 번호입니다. 다시 입력해주세요.");
                     continue;  // 다음 반복으로
                 }
 
