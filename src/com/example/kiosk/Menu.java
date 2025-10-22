@@ -30,7 +30,7 @@ public class Menu {
 
     public MenuItem selectMenuItem(int choice){
         if(choice>=1 && choice<=items.size()){
-            return items.get(choice);
+            return items.get(choice -1);
         }
         return null;
     }
