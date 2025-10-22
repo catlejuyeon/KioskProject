@@ -53,10 +53,29 @@ public class Kiosk {
 
     private void showSubMenu(Menu menu) {
         while (true) {
-            System.out.println("버거메뉴로왔다치자");
-            System.out.println("종료:");
-            int subChoice = sc.nextInt();
-            if (subChoice == 0) break;
+            menu.showMenu();
+            System.out.print("번호를 선택하세요 : ");
+
+            try{
+                int subChoice = sc.nextInt();
+
+                //뒤로가기
+                if(subChoice==0) break;
+
+                //메뉴 번호 검증
+                if(subChoice < 1 || subChoice>menu.getItemCount()){
+                    System.out.println("없는 번호입니다. 다시 입력해주세요.");
+                    continue;
+                }
+
+                //정상 처리
+                MenuItem item = menu.selectMenuItem(subChoice);
+                System.out.println("선택한 메뉴: ");
+                item.showMenuItem();
+            }catch(InputMismatchException e){
+                System.out.println("숫자만 입력해주세요.");
+                sc.nextLine();
+            }
         }
     }
 }
