@@ -26,15 +26,15 @@ public class Main {
         MenuItem vanillaIceCream = new MenuItem("VanillaIceCream", 3000, "바닐라 향이 나는 소프트아이스크림");
         MenuItem waffle = new MenuItem("Waffle", 4000, "달콤 바삭 와플, 아이스크림이랑 먹으면 최고");
 
-        Menu dessersMenu = new Menu("Desserts");
-        dessersMenu.addItem(vanillaIceCream);
-        dessersMenu.addItem(waffle);
+        Menu dessertsMenu = new Menu("Desserts");
+        dessertsMenu.addItem(vanillaIceCream);
+        dessertsMenu.addItem(waffle);
 
         //키오스크
         Kiosk kiosk = new Kiosk();
         kiosk.addMenu(burgerMenu);
         kiosk.addMenu(drinkMenu);
-        kiosk.addMenu(dessersMenu);
+        kiosk.addMenu(dessertsMenu);
 
         kiosk.execute();
 
