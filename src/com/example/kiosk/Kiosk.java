@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Kiosk {
     ArrayList<Menu> menus = new ArrayList<>();
+    ArrayList<MenuItem> cart = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
     public void addMenu(Menu menu) {
@@ -22,6 +23,14 @@ public class Kiosk {
                 System.out.printf("%d. %s\n", i + 1, menus.get(i).menuCategory);
             }
             System.out.println("0. 종료");
+
+            //장바구니가 비어있지 않으면 order menu 출력
+            if(!cart.isEmpty()) {
+                System.out.println("[ ORDER MENU ]");
+                System.out.printf("%d. Orders    | 장바구니를 확인 후 주문합니다.\n", menus.size()+1);
+                System.out.printf("%d. Cancel    | 진행중인 주문을 취소합니다.\n",menus.size()+2);
+            }
+
             System.out.printf("번호를 선택하세요 : ");
 
             try {
@@ -44,7 +53,7 @@ public class Kiosk {
                 showSubMenu(menus.get(choice - 1));
 
             } catch (InputMismatchException e) {
-                System.out.println("⚠️ 숫자만 입력해주세요!");
+                System.out.println("숫자만 입력해주세요!");
                 sc.nextLine();
             }
         }
@@ -70,8 +79,18 @@ public class Kiosk {
 
                 //정상 처리
                 MenuItem item = menu.selectMenuItem(subChoice);
-                System.out.println("선택한 메뉴: ");
+                System.out.printf("선택한 메뉴: ");
                 item.showMenuItem();
+                System.out.println("장바구니에 추가하시겠습니까?");
+                System.out.println("1. 확인     2. 취소");
+                System.out.print("번호를 입력하세요: ");
+                int confirm = sc.nextInt();
+
+                if(confirm==1){
+                    cart.add(item);
+                    System.out.println(item.name + "이 장바구니에 추가되었습니다.");
+                }
+
             }catch(InputMismatchException e){
                 System.out.println("숫자만 입력해주세요.");
                 sc.nextLine();
