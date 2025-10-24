@@ -62,9 +62,8 @@ public class Kiosk {
                     showSubMenu(menus.get(choice - 1));
                 } else if(!cart.isEmpty() && choice == 4) {
                     showCart();
-                    //
                 } else if(choice == 5) {
-                    // delete
+                    cancelCart();
                 }
 
             } catch (InputMismatchException e) {
@@ -138,6 +137,33 @@ public class Kiosk {
                     break;
                 }
 
+            }catch(InputMismatchException e){
+                System.out.println("숫자만 입력해주세요.");
+                sc.nextLine();
+            }
+        }
+    }
+
+    //취소를 좀 더 자세히 구현해?(현재 모두 취소 뿐)
+    private void cancelCart(){
+        while(true){
+            System.out.println("\n[ Cancel ]");
+            for(MenuItem menuItem : cart){
+                menuItem.showMenuItem();
+                System.out.println("주문을 취소 하시겠습니까?");
+                System.out.println("1. 취소     2. 메뉴판");
+                System.out.printf("번호를 입력하세요: ");
+            }
+            try{
+                int cancelChoice = sc.nextInt();
+
+                if(cancelChoice==2) break;
+
+                if(cancelChoice == 1){
+                    cart.clear();
+                    System.out.println("주문이 취소되었습니다.");
+                    break;
+                }
             }catch(InputMismatchException e){
                 System.out.println("숫자만 입력해주세요.");
                 sc.nextLine();
