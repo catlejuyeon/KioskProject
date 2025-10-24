@@ -39,13 +39,4 @@ public class Menu {
     public int getItemCount(){
         return items.size();
     }
-
-    /*
-    //특정 인덱스의 메뉴 항목을 반환
-    public MenuItem getItem(int index){
-        if(index >=0 && index < items.size()){  //인덱스가 유효한 범위인지 검사
-            return items.get(index);
-        }
-        return null;
-    }*/
 }
