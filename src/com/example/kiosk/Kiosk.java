@@ -133,7 +133,9 @@ public class Kiosk {
                 if(cartChoice==2) break;
 
                 if(cartChoice ==1){
-                    System.out.println("hi");
+                    cart.clear();
+                    System.out.println("주문이 완료 되었습니다. 금액은 "+sum+"원 입니다.");
+                    break;
                 }
 
             }catch(InputMismatchException e){
