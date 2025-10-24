@@ -1,7 +1,6 @@
 package com.example.kiosk;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -9,13 +8,13 @@ public class Kiosk {
     ArrayList<Menu> menus = new ArrayList<>();
     ArrayList<MenuItem> cart = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
-    int maxOption = menus.size();
 
     public void addMenu(Menu menu) {
         menus.add(menu);
     }
 
     public void execute() {
+        int maxOption = menus.size();
         while (true) {
             //Main 메뉴 출력
             System.out.println("\n[ MAIN MENU ]");
@@ -24,48 +23,49 @@ public class Kiosk {
             for (int i = 0; i < menus.size(); i++) {
                 System.out.printf("%d. %s\n", i + 1, menus.get(i).menuCategory);
             }
-            System.out.println("0. 종료");
+
 
             //장바구니가 비어있지 않으면 order menu 출력 -> 여기까진 잘 실행됨
             if(!cart.isEmpty()) {
                 System.out.println("[ ORDER MENU ]");
-                System.out.printf("%d. Orders    | 장바구니를 확인 후 주문합니다.\n", menus.size()+1);
-                System.out.printf("%d. Cancel    | 진행중인 주문을 취소합니다.\n",menus.size()+2);
+                System.out.printf("%d. Orders    | 장바구니를 확인 후 주문합니다.\n", 4);
+                System.out.printf("%d. Cancel    | 진행중인 주문을 취소합니다.\n", 5);
             }
-
+            System.out.println("---------------------");
+            System.out.println("0. 종료");
             System.out.printf("번호를 선택하세요 : ");
 
             try {
                 int choice = sc.nextInt();
-
-
-                if (!cart.isEmpty()) {
-                    maxOption=menus.size();
-                    maxOption += 2; // Orders, Cancel 추가
-                }
 
                 if (choice == 0) {
                     System.out.println("프로그램을 종료합니다.");
                     break;
                 }
 
-                //장바구니 메뉴 처리
-                if(!cart.isEmpty()) {
-                    if(choice ==menus.size()+1){
-                        showCart();
-                    }
+                if (!cart.isEmpty()) {
+                    maxOption=menus.size();
+                    maxOption += 2; // Orders, Cancel 추가
                 }
 
                 //예외적인 상황?
                 //try-catch에서는 자료형,네트워크,파일 등의 오류만 잡아줌.
                 //99처럼 숫자라는 자료형은 맞지만 없는 메뉴 번호 선택시는 잡아주질 못함.
                 //그래서 범위를 벗어난 숫자 검증 로직 추가
-                if (choice < 1 || choice > menus.size()) {
+                if (choice < 1 || choice > maxOption) {
                     System.out.println("없는 번호입니다. 다시 입력해주세요.");
                     continue;  // 다음 반복으로
                 }
 
-                showSubMenu(menus.get(choice - 1));
+                //장바구니 메뉴 처리
+                if(choice < 4) {
+                    showSubMenu(menus.get(choice - 1));
+                } else if(!cart.isEmpty() && choice == 4) {
+                    showCart();
+                    //
+                } else if(choice == 5) {
+                    // delete
+                }
 
             } catch (InputMismatchException e) {
                 System.out.println("숫자만 입력해주세요!");
@@ -114,6 +114,7 @@ public class Kiosk {
     }
 
     private void showCart(){
+        while(true){
             System.out.println("\n[ Orders ]");
             for (MenuItem menuItem : cart) {
                 menuItem.showMenuItem();
@@ -124,8 +125,22 @@ public class Kiosk {
 
             System.out.println("Total: " + sum+"원");
             System.out.println("1. 주문     2. 메뉴판");
+            System.out.printf("번호를 입력하세요: ");
 
+            try{
+                int cartChoice = sc.nextInt();
 
+                if(cartChoice==2) break;
+
+                if(cartChoice ==1){
+                    System.out.println("hi");
+                }
+
+            }catch(InputMismatchException e){
+                System.out.println("숫자만 입력해주세요.");
+                sc.nextLine();
+            }
+        }
     }
 }
 
