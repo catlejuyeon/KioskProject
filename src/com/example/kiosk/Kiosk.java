@@ -1,13 +1,13 @@
 package com.example.kiosk;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Kiosk {
     ArrayList<Menu> menus = new ArrayList<>();
     ArrayList<MenuItem> cart = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
+
 
     public void addMenu(Menu menu) {
         menus.add(menu);
@@ -105,6 +105,10 @@ public class Kiosk {
                     System.out.println(item.name + "이 장바구니에 추가되었습니다.");
                 }
 
+                if(confirm==2){
+                    break;
+                }
+
             }catch(InputMismatchException e){
                 System.out.println("숫자만 입력해주세요.");
                 sc.nextLine();
@@ -132,8 +136,7 @@ public class Kiosk {
                 if(cartChoice==2) break;
 
                 if(cartChoice ==1){
-                    cart.clear();
-                    System.out.println("주문이 완료 되었습니다. 금액은 "+sum+"원 입니다.");
+                    discountAndOrder();
                     break;
                 }
 
@@ -167,6 +170,37 @@ public class Kiosk {
             }catch(InputMismatchException e){
                 System.out.println("숫자만 입력해주세요.");
                 sc.nextLine();
+            }
+        }
+    }
+
+    private void discountAndOrder(){
+        Discount[] discount = Discount.values();
+        while(true){
+            System.out.println("할인 정보를 입력해주세요.");
+
+            int sum = cart.stream()
+                    .mapToInt(item -> item.price)
+                    .sum();
+
+            for(int i=0; i<discount.length; i++){
+                System.out.println((i+1)+ ". "+discount[i].getDiscountName());
+            }
+            System.out.println("번호를 입력해 주세요: ");
+
+            try{
+                Discount selectDiscount = discount[sc.nextInt()-1];
+
+                int discountAmount=selectDiscount.apply(sum);
+                int finalPrice = selectDiscount.getFinalPrice(sum);
+
+                System.out.println("할인된 금액: " + discountAmount + "원");
+                System.out.println("최종 금액: " + finalPrice + "원");
+                cart.clear();
+                break;
+
+            }catch(InputMismatchException e){
+                System.out.println("번호를 다시 입력해주세요.");
             }
         }
     }
