@@ -144,10 +144,11 @@ public class Kiosk {
         while(true){
             System.out.println("\n[ Orders ]");
             for (MenuItem menuItem : cart) {
-                menuItem.showMenuItemOnlyMenu();
+                System.out.printf("%s | %d원 | %d개\n",
+                        menuItem.name, menuItem.price, menuItem.getQuantity());
             }
             int sum = cart.stream()
-                    .mapToInt(item -> item.price)
+                    .mapToInt(item -> item.price * item.getQuantity())
                     .sum();
 
             System.out.println("Total: " + sum+"원");
@@ -296,7 +297,7 @@ public class Kiosk {
             System.out.println("할인 정보를 입력해주세요.");
 
             int sum = cart.stream()
-                    .mapToInt(item -> item.price)
+                    .mapToInt(item -> item.price * item.getQuantity())
                     .sum();
 
             for(int i=0; i<discount.length; i++){
