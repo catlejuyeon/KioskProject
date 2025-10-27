@@ -218,59 +218,55 @@ public class Kiosk {
             for(MenuItem menuItem : cart){
                 menuItem.showMenuItem();
             }
-            System.out.print("취소할 메뉴 번호를 선택하세요: \n");
-            System.out.println("-------------");
             System.out.println("0. 뒤로가기");
+            System.out.println("-------------");
+            System.out.print("취소할 메뉴 번호를 선택하세요: \n");
 
             try{
                 int choice=sc.nextInt();
 
                 if(choice==0) return;
 
-                if(choice>=1&&choice<=cart.size()){
-                    MenuItem selectedItem=cart.get(choice-1);//메뉴이름가져오기
-                    if(selectedItem.getQuantity()==1){//메뉴수량이1이면바로삭제
-                        removeFromCart(selectedItem.name);
-                    }else{//2개이상이면 몇개삭제할건지 물어봄
-                        System.out.println("현재 수량: "+selectedItem.getQuantity()+"개");
-                        System.out.println("1. 수량 수정");
-                        System.out.println("2. 메뉴 전체 삭제");
-                        System.out.println("0. 뒤로가기");
-                        System.out.print("번호를 선택하세요: ");
+                if(choice>=1&&choice<=cart.size()) {
+                    MenuItem selectedItem = cart.get(choice - 1);//메뉴이름가져오기
 
-                        int editChoice=sc.nextInt();
+                    System.out.println("현재 수량: " + selectedItem.getQuantity() + "개");
+                    System.out.println("1. 수량 수정");
+                    System.out.println("2. 메뉴 전체 삭제");
+                    System.out.println("0. 뒤로가기");
+                    System.out.print("번호를 선택하세요: ");
 
-                        if(editChoice==0) return;
+                    int editChoice = sc.nextInt();
 
-                        if(editChoice==1){
-                            System.out.print("변경할 수량을 입력하세요: ");
-                            int editQuantity=sc.nextInt();
+                    if (editChoice == 0) continue;
 
-                            if(editQuantity>0){
-                                selectedItem.setQuantity(editQuantity);
-                                System.out.println("수량이 "+editChoice+"개로 변경되었습니다.");
-                            }else if(editQuantity==0){
-                                System.out.println("수량을 0으로 설정하면 삭제됩니다. 삭제하시겠습니까?");
-                                System.out.println("1. 네     2. 아니오");
-                                int confirmDelete=sc.nextInt();
-                                if(confirmDelete==1){
-                                    removeFromCart(selectedItem.name);
-                                }
-                                else{
-                                    System.out.println("잘못된 수량입니다.");
-                                }
-                            }else if(editQuantity==2){
-                                //선택된메뉴 2개이상일때 전체삭제
-                                System.out.println("메뉴르 삭제하시겠습니까?");
-                                System.out.println("1.네     2.아니오");
-                                int confirmDelete=sc.nextInt();
-                                if(confirmDelete==1){
-                                    removeFromCart(selectedItem.name);
-                                }
+                    if (editChoice == 1) {
+                        System.out.print("변경할 수량을 입력하세요: ");
+                        int editQuantity = sc.nextInt();
+
+                        if (editQuantity > 0) {
+                            selectedItem.setQuantity(editQuantity);
+                            System.out.println("수량이 " + editChoice + "개로 변경되었습니다.");
+                        } else if (editQuantity == 0) {
+                            System.out.println("수량을 0으로 설정하면 삭제됩니다. 삭제하시겠습니까?");
+                            System.out.println("1. 네     2. 아니오");
+                            int confirmDelete = sc.nextInt();
+                            if (confirmDelete == 1) {
+                                removeFromCart(selectedItem.name);
+                            } else {
+                                System.out.println("잘못된 수량입니다.");
                             }
-                        }else {
-                            System.out.println("잘못된 번호입니다.");
+                        } else if (editChoice == 2) {
+                            //선택된메뉴 2개이상일때 전체삭제
+                            System.out.println("메뉴르 삭제하시겠습니까?");
+                            System.out.println("1.네     2.아니오");
+                            int confirmDelete = sc.nextInt();
+                            if (confirmDelete == 1) {
+                                removeFromCart(selectedItem.name);
+                            }
                         }
+                    } else {
+                        System.out.println("잘못된 번호입니다.");
                     }
                 }
             }catch(InputMismatchException e){
