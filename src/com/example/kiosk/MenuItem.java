@@ -16,6 +16,10 @@ public class MenuItem {
         this.description = description;
     }
 
+    public void showMenuItemOnlyMenu(){
+        System.out.printf("%s | %d원 | %s\n", name, price, description);
+    }
+
     public void showMenuItem(){
         System.out.printf("%s | %d원 | %s | %d개\n", name, price, description, quantity);
     }

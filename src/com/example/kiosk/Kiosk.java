@@ -1,8 +1,7 @@
 package com.example.kiosk;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Kiosk {
     ArrayList<Menu> menus = new ArrayList<>();
@@ -34,7 +33,7 @@ public class Kiosk {
             }
             System.out.println("---------------------");
             System.out.println("0. 종료");
-            System.out.printf("번호를 선택하세요 : ");
+            System.out.print("번호를 선택하세요 : ");
 
             try {
                 int choice = sc.nextInt();
@@ -94,10 +93,10 @@ public class Kiosk {
 
                 //정상 처리
                 MenuItem item = menu.selectMenuItem(subChoice);
-                System.out.printf("\n선택한 메뉴: ");
-                item.showMenuItem();
+                System.out.print("\n선택한 메뉴: ");
+                item.showMenuItemOnlyMenu();
 
-                System.out.printf("수량을 입력해 주세요: ");
+                System.out.print("수량을 입력해 주세요: ");
                 int quantity = sc.nextInt();
 
                 if(quantity<1){
@@ -145,7 +144,7 @@ public class Kiosk {
         while(true){
             System.out.println("\n[ Orders ]");
             for (MenuItem menuItem : cart) {
-                menuItem.showMenuItem();
+                menuItem.showMenuItemOnlyMenu();
             }
             int sum = cart.stream()
                     .mapToInt(item -> item.price)
@@ -153,7 +152,7 @@ public class Kiosk {
 
             System.out.println("Total: " + sum+"원");
             System.out.println("1. 주문     2. 메뉴판");
-            System.out.printf("번호를 입력하세요: ");
+            System.out.print("번호를 입력하세요: ");
 
             try{
                 int cartChoice = sc.nextInt();
@@ -180,7 +179,7 @@ public class Kiosk {
                 System.out.println("1. 부분 취소");
                 System.out.println("2. 전체 취소");
                 System.out.println("0. 메뉴판");
-                System.out.printf("번호를 입력하세요: \n");
+                System.out.print("번호를 입력하세요: \n");
 
             try{
                 int cancelChoice = sc.nextInt();
@@ -211,13 +210,22 @@ public class Kiosk {
 
     //장바구니 부분취소..?일단해봐 + 스트림 사용해서
     //같은 메뉴가 두개 이상일 때 다 사라지는지, 하나만 삭제되는지 확인..(몇개 뺄지도 값을 받아야하는 건가?)
-    //몇개 뺼건지 받자
+    //주문 부분 취소
     private void cancelPartialOrder(){
+        AtomicInteger index = new AtomicInteger(1);
         while(true){
             System.out.println("[ Cart List ]");
-            for(MenuItem menuItem : cart){
-                menuItem.showMenuItem();
-            }
+
+            cart
+                    .forEach(item -> System.out.printf(
+                            "%d. %-13s | %d원 | %s | %d개\n",
+                            index.getAndIncrement(),
+                            item.name,
+                            item.price,
+                            item.description,
+                            item.getQuantity()
+                    ));
+
             System.out.println("0. 뒤로가기");
             System.out.println("-------------");
             System.out.print("취소할 메뉴 번호를 선택하세요: \n");
@@ -276,6 +284,7 @@ public class Kiosk {
         }
     }
 
+    //부분취소연산되는 메소드
     private void removeFromCart(String menuName){
         cart.removeIf(item -> item.name.equals(menuName));
         System.out.println(menuName+"이(가) 장바구니에서 제거되었습니다.");
@@ -293,7 +302,7 @@ public class Kiosk {
             for(int i=0; i<discount.length; i++){
                 System.out.println((i+1)+ ". "+discount[i].getDiscountName());
             }
-            System.out.printf("번호를 입력해 주세요: ");
+            System.out.print("번호를 입력해 주세요: ");
 
             try{
                 Discount selectDiscount = discount[sc.nextInt()-1];
