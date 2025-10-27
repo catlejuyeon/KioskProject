@@ -4,7 +4,7 @@ public enum Discount {
     NATIONALMERIT("국가유공자",0.1),
     MILITARY("군인",0.05),
     STUDENT("학생",0.03),
-    PERSON("일반인",1);
+    PERSON("일반인",0);
 
     private final double rate;
     private final String discountName;
