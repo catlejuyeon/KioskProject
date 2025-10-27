@@ -7,6 +7,7 @@ public class MenuItem {
     int price;
     String description;
     int id;
+    int quantity;
 
     public MenuItem(int id, String name, int price, String description){
         this.id=id;
@@ -16,6 +17,15 @@ public class MenuItem {
     }
 
     public void showMenuItem(){
-        System.out.printf("%s | %d원 | %s\n", name, price, description);
+        System.out.printf("%s | %d원 | %s | %d개\n", name, price, description, quantity);
+    }
+
+    //세터
+    public void setQuantity(int quantity){
+        this.quantity=quantity;
+    }
+
+    public int getQuantity(){
+        return quantity;
     }
 }

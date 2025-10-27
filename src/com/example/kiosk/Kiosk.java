@@ -95,14 +95,38 @@ public class Kiosk {
                 MenuItem item = menu.selectMenuItem(subChoice);
                 System.out.printf("\n선택한 메뉴: ");
                 item.showMenuItem();
+
+                System.out.printf("수량을 입력해 주세요: ");
+                int quantity = sc.nextInt();
+
+                if(quantity<1){
+                    System.out.println("수량은 최소 1개부터 입력할 수 있습니다.");
+                    continue;
+                }
+
                 System.out.println("장바구니에 추가하시겠습니까?");
                 System.out.println("1. 확인     2. 취소");
                 System.out.print("번호를 입력하세요: ");
                 int confirm = sc.nextInt();
 
                 if(confirm==1){
-                    cart.add(item);
-                    System.out.println(item.name + "이 장바구니에 추가되었습니다.");
+                    //장바구니에 같은 메뉴가 있는가?
+                    boolean finder = false;
+                    for(int i=0; i<cart.size(); i++){
+                        MenuItem cartItem = cart.get(i);
+                        if(cartItem.id == item.id){ //id로 확인
+                            cartItem.setQuantity(cartItem.getQuantity()+quantity);
+                            System.out.println(item.name+"의 수량이 변경되었습니다. (총 수량: "+cartItem.getQuantity()+")");
+                            finder=true;
+                            break;
+                        }
+                    }
+
+                    if(!finder){
+                        item.setQuantity(quantity);
+                        cart.add(item);
+                        System.out.println(item.name +"  "+ item.quantity+ "개가 장바구니에 추가되었습니다.");
+                    }
                 }
 
                 if(confirm==2){
@@ -186,7 +210,7 @@ public class Kiosk {
             for(int i=0; i<discount.length; i++){
                 System.out.println((i+1)+ ". "+discount[i].getDiscountName());
             }
-            System.out.println("번호를 입력해 주세요: ");
+            System.out.printf("번호를 입력해 주세요: ");
 
             try{
                 Discount selectDiscount = discount[sc.nextInt()-1];
