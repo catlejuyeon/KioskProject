@@ -191,7 +191,7 @@ public class Kiosk {
             try{
                 Discount selectDiscount = discount[sc.nextInt()-1];
 
-                int discountAmount=selectDiscount.apply(sum);
+                int discountAmount=selectDiscount.getDiscount(sum);
                 int finalPrice = selectDiscount.getFinalPrice(sum);
 
                 System.out.println("할인된 금액: " + discountAmount + "원");

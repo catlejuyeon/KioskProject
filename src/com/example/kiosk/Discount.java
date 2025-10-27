@@ -22,10 +22,6 @@ public enum Discount {
         return price - getDiscount(price);
     }
 
-    public int apply(int price){
-        return (int) (price*rate);
-    }
-
     public String getDiscountName(){
         return discountName;
     }
