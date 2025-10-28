@@ -8,6 +8,12 @@ public class Kiosk {
     ArrayList<MenuItem> cart = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
+    private static final int EXIT = 0;
+    private static final int CONFIRM = 1;
+    private static final int CANCEL = 2;
+    // 고정된 메뉴 번호 (Burgers, Drinks, Desserts는 1-3번)
+    private static final int ORDERS_MENU = 4;
+    private static final int CANCEL_MENU = 5;
 
     public void addMenu(Menu menu) {
         menus.add(menu);
@@ -28,8 +34,8 @@ public class Kiosk {
             //장바구니가 비어있지 않으면 order menu 출력 -> 여기까진 잘 실행됨
             if(!cart.isEmpty()) {
                 System.out.println("[ ORDER MENU ]");
-                System.out.printf("%d. Orders    | 장바구니를 확인 후 주문합니다.\n", 4);
-                System.out.printf("%d. Cancel    | 진행중인 주문을 취소합니다.\n", 5);
+                System.out.printf("%d. Orders    | 장바구니를 확인 후 주문합니다.\n", ORDERS_MENU);
+                System.out.printf("%d. Cancel    | 진행중인 주문을 취소합니다.\n", CANCEL_MENU);
             }
             System.out.println("---------------------");
             System.out.println("0. 종료");
@@ -38,7 +44,7 @@ public class Kiosk {
             try {
                 int choice = sc.nextInt();
 
-                if (choice == 0) {
+                if (choice == EXIT) {
                     System.out.println("프로그램을 종료합니다.");
                     break;
                 }
@@ -58,11 +64,11 @@ public class Kiosk {
                 }
 
                 //장바구니 메뉴 처리
-                if(choice < 4) {
+                if(choice <= menus.size()) {
                     showSubMenu(menus.get(choice - 1));
-                } else if(!cart.isEmpty() && choice == 4) {
+                } else if(!cart.isEmpty() && choice == ORDERS_MENU) {
                     showCart();
-                } else if(choice == 5) {
+                } else if(choice == CANCEL_MENU) {
                     cancelCart();
                 }
 
@@ -83,7 +89,7 @@ public class Kiosk {
                 int subChoice = sc.nextInt();
 
                 //뒤로가기
-                if(subChoice==0) break;
+                if(subChoice==EXIT) break;
 
                 //메뉴 번호 검증
                 if(subChoice < 1 || subChoice>menu.getItemCount()){
@@ -109,7 +115,7 @@ public class Kiosk {
                 System.out.print("번호를 입력하세요: ");
                 int confirm = sc.nextInt();
 
-                if(confirm==1){
+                if(confirm==CONFIRM){
                     //장바구니에 같은 메뉴가 있는가?
                     boolean finder = false;
                     for(int i=0; i<cart.size(); i++){
@@ -129,7 +135,7 @@ public class Kiosk {
                     }
                 }
 
-                if(confirm==2){
+                if(confirm==CANCEL){
                     break;
                 }
 
@@ -158,9 +164,9 @@ public class Kiosk {
             try{
                 int cartChoice = sc.nextInt();
 
-                if(cartChoice==2) break;
+                if(cartChoice==CANCEL) break;
 
-                if(cartChoice ==1){
+                if(cartChoice ==CONFIRM){
                     discountAndOrder();
                     break;
                 }
@@ -185,13 +191,13 @@ public class Kiosk {
             try{
                 int cancelChoice = sc.nextInt();
 
-                if(cancelChoice==0) break;
+                if(cancelChoice==EXIT) break;
 
                 if(cancelChoice == 2){
                     System.out.println("정말 주문을 전체 취소하시겠습니까?");
                     System.out.println("1. 확인      2. 취소");
                     int confirm = sc.nextInt();
-                    if(confirm==1){
+                    if(confirm==CONFIRM){
                         cart.clear();
                         System.out.println("주문이 전체 취소되었습니다.");
                         break;
@@ -234,7 +240,7 @@ public class Kiosk {
             try{
                 int choice=sc.nextInt();
 
-                if(choice==0) return;
+                if(choice==EXIT) return;
 
                 if(choice>=1&&choice<=cart.size()) {
                     MenuItem selectedItem = cart.get(choice - 1);//메뉴이름가져오기
@@ -247,7 +253,7 @@ public class Kiosk {
 
                     int editChoice = sc.nextInt();
 
-                    if(editChoice == 0) continue;
+                    if(editChoice == EXIT) continue;
 
                     if(editChoice == 1){
                         System.out.print("변경할 수량을 입력하세요: ");
