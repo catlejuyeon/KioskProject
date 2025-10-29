@@ -20,10 +20,6 @@ public class MenuItem {
         System.out.printf("%s | %d원 | %s\n", name, price, description);
     }
 
-    public void showMenuItem(){
-        System.out.printf("%s | %d원 | %s | %d개\n", name, price, description, quantity);
-    }
-
     //세터
     public void setQuantity(int quantity){
         this.quantity=quantity;
