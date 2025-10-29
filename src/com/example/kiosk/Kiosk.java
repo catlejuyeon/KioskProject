@@ -227,48 +227,13 @@ public class Kiosk {
 
                 if(choice==EXIT) return;
 
-                if(choice>=1&&choice<=cart.size()) {
-                    MenuItem selectedItem = cart.get(choice - 1);//메뉴이름가져오기
-
-                    System.out.println("현재 수량: " + selectedItem.getQuantity() + "개");
-                    System.out.println("1. 수량 수정");
-                    System.out.println("2. 메뉴 전체 삭제");
-                    System.out.println("0. 뒤로가기");
-                    System.out.print("번호를 선택하세요: ");
-
-                    int editChoice = sc.nextInt();
-
-                    if(editChoice == EXIT) continue;
-
-                    if(editChoice == 1){
-                        System.out.print("변경할 수량을 입력하세요: ");
-                        int newQuantity = sc.nextInt();
-
-                        if(newQuantity > 0){
-                            selectedItem.setQuantity(newQuantity);
-                            System.out.println("수량이 " + newQuantity + "개로 변경되었습니다.");
-                        }else if(newQuantity == 0){
-                            System.out.println("수량을 0으로 설정하면 삭제됩니다. 삭제하시겠습니까?");
-                            System.out.println("1. 확인     2. 취소");
-                            int confirmDelete = sc.nextInt();
-                            if (confirmDelete == 1){
-                                removeFromCart(selectedItem.name);
-                            }
-                        }else{
-                            System.out.println("잘못된 수량입니다.");
-                        }
-
-                    }else if(editChoice == 2){
-                        System.out.println("정말 삭제하시겠습니까?");
-                        System.out.println("1. 확인     2. 취소");
-                        int confirmDelete = sc.nextInt();
-                        if(confirmDelete == 1){
-                            removeFromCart(selectedItem.name);
-                        }
-                    }
-                }else{
+                if(choice==1||choice>cart.size()){
                     System.out.println("잘못된 번호입니다.");
+                    continue;
                 }
+
+                cartItemEdit(cart.get(choice -1));
+
             }catch(InputMismatchException e){
                 System.out.println("숫자만 입력해 주세요.");
                 sc.nextLine();
@@ -276,6 +241,7 @@ public class Kiosk {
         }
     }
 
+    //장바구니 목록 출력
     private void displayCartList(){
         System.out.println("[ Cart List ]");
 
@@ -294,6 +260,50 @@ public class Kiosk {
         System.out.println("0. 뒤로가기");
         System.out.println("-------------");
         System.out.print("취소할 메뉴 번호를 선택하세요: \n");
+    }
+
+    //아이템 수정/삭제
+    private void cartItemEdit(MenuItem selectedItem){
+        System.out.println("현재 수량: " + selectedItem.getQuantity() + "개");
+        System.out.println("1. 수량 수정");
+        System.out.println("2. 메뉴 전체 삭제");
+        System.out.println("0. 뒤로가기");
+        System.out.print("번호를 선택하세요: ");
+
+        try{
+            int editChoice = sc.nextInt();
+            if(editChoice==EXIT) return;
+
+            if(editChoice == 1){
+                //수량수정
+                System.out.println("변경할 수량을 입력하세요: ");
+                int newQuantity = sc.nextInt();
+
+                if(newQuantity>0) {
+                    selectedItem.setQuantity(newQuantity);
+                    System.out.println("수량이 " + newQuantity + "개로 변경되었습니다.");
+                } else if(newQuantity==0) {
+                    System.out.println("수량을 0으로 설정하면 삭제됩니다. 삭제하시겠습니까?");
+                    System.out.println("1. 확인     2. 취소");
+                    if(sc.nextInt()==CONFIRM) {
+                        removeFromCart(selectedItem.name);
+                    }
+                } else {
+                    System.out.println("잘못된 수량입니다.");
+                }
+            }
+            else if(editChoice == 2) {
+                // 메뉴 삭제
+                System.out.println("정말 삭제하시겠습니까?");
+                System.out.println("1. 확인     2. 취소");
+                if(sc.nextInt()==CONFIRM) {
+                    removeFromCart(selectedItem.name);
+                }
+            }
+        }catch (InputMismatchException e){
+            System.out.println("숫자만 입력해 주세요.");
+            sc.nextLine();
+        }
     }
 
     //부분취소연산되는 메소드
