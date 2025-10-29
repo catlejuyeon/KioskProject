@@ -8,7 +8,7 @@ import java.util.Scanner;
     2. 입력 검증 및 확인 메시지 처리
  */
 public class InputManager {
-    private Scanner sc;
+    private final Scanner sc;
 
     private static final int CONFIRM = 1;
 
@@ -17,8 +17,7 @@ public class InputManager {
     }
 
     //정수 입력 받기
-    public int getIntInput(String message){
-        System.out.println(message);
+    public int getIntInput(){
         return sc.nextInt();
     }
 
@@ -54,22 +53,9 @@ public class InputManager {
         }
     }
 
-    // 범위 내 선택 받기
-    public int getValidChoice(int min, int max, String errorMessage){
-        while (true){
-            try {
-                int choice = sc.nextInt();
-
-                if(choice<min || choice>max){
-                    System.out.println(errorMessage);
-                    continue;
-                }
-                return choice;
-            }catch (InputMismatchException e){
-                System.out.println("숫자만 입력해주세요.");
-                sc.nextLine();
-            }
-        }
+    //입력값 지우기
+    public void clearInputValue(){
+        sc.nextLine();
     }
 }
 
