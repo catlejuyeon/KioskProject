@@ -25,7 +25,7 @@ public class Kiosk {
             //Main 메뉴 출력
             System.out.println("\n[ MAIN MENU ]");
 
-            //메뉴 카테고리 이름 출력
+            //메뉴 카테고리 이름 출력-> 여기까지 menuUI
             for (int i = 0; i < menus.size(); i++) {
                 System.out.printf("%d. %s\n", i + 1, menus.get(i).menuCategory);
             }
@@ -80,6 +80,7 @@ public class Kiosk {
         sc.close();
     }
 
+    //메뉴 아이템 보여주고 선택하는 메소드
     private void showSubMenu(Menu menu) {
         while (true) {
             menu.showMenu();
@@ -146,6 +147,7 @@ public class Kiosk {
         }
     }
 
+    //장바구니 주문 메소드
     private void showCart(){
         while(true){
             System.out.println("\n[ Orders ]");
@@ -178,7 +180,7 @@ public class Kiosk {
         }
     }
 
-    //취소를 좀 더 자세히 구현해?(현재 모두 취소 뿐)
+    //취소메소드
     private void cancelCart(){
         while(true){
             System.out.println("\n[ Cancel ]");
@@ -215,27 +217,10 @@ public class Kiosk {
         }
     }
 
-    //장바구니 부분취소..?일단해봐 + 스트림 사용해서
-    //같은 메뉴가 두개 이상일 때 다 사라지는지, 하나만 삭제되는지 확인..(몇개 뺄지도 값을 받아야하는 건가?)
     //주문 부분 취소
     private void cancelPartialOrder(){
-        AtomicInteger index = new AtomicInteger(1);
         while(true){
-            System.out.println("[ Cart List ]");
-
-            cart
-                    .forEach(item -> System.out.printf(
-                            "%d. %-13s | %d원 | %s | %d개\n",
-                            index.getAndIncrement(),
-                            item.name,
-                            item.price,
-                            item.description,
-                            item.getQuantity()
-                    ));
-
-            System.out.println("0. 뒤로가기");
-            System.out.println("-------------");
-            System.out.print("취소할 메뉴 번호를 선택하세요: \n");
+            displayCartList();
 
             try{
                 int choice=sc.nextInt();
@@ -291,12 +276,33 @@ public class Kiosk {
         }
     }
 
+    private void displayCartList(){
+        System.out.println("[ Cart List ]");
+
+        for(int i = 0; i < cart.size(); i++) {
+            MenuItem item = cart.get(i);
+            System.out.printf(
+                    "%d. %-13s | %d원 | %s | %d개\n",
+                    i + 1,
+                    item.name,
+                    item.price,
+                    item.description,
+                    item.getQuantity()
+            );
+        }
+
+        System.out.println("0. 뒤로가기");
+        System.out.println("-------------");
+        System.out.print("취소할 메뉴 번호를 선택하세요: \n");
+    }
+
     //부분취소연산되는 메소드
     private void removeFromCart(String menuName){
         cart.removeIf(item -> item.name.equals(menuName));
         System.out.println(menuName+"이(가) 장바구니에서 제거되었습니다.");
     }
 
+    //할인 메소드
     private void discountAndOrder(){
         Discount[] discount = Discount.values();
         while(true){
