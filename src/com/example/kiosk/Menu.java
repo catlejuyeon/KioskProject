@@ -22,7 +22,8 @@ public class Menu {
         System.out.println("\n[ " + menuCategory.toUpperCase() + " MENU ]");
         int i=1;
         for (MenuItem item : items){
-            System.out.printf("%d. %-13s | %d원 | %s\n", i, item.name, item.price, item.description);
+            System.out.print(i + ". ");
+            item.display();
             i++;
         }
         System.out.println("0. 뒤로가기");

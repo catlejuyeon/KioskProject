@@ -107,7 +107,7 @@ public class Kiosk {
                 //정상 처리
                 MenuItem item = menu.selectMenuItem(subChoice);
                 System.out.print("\n선택한 메뉴: ");
-                item.showMenuItemOnlyMenu();
+                item.display();
 
                 int quantity = inputManager.getValidQuantity();
 

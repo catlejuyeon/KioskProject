@@ -52,7 +52,7 @@ public class CartManager {
     //장바구니 총액 계산
     public int getTotalPrice(){
         return cart.stream()
-                .mapToInt(item -> item.price*item.getQuantity())
+                .mapToInt(item -> item.getPrice()*item.getQuantity())
                 .sum();
     }
 
@@ -60,7 +60,7 @@ public class CartManager {
     public void displayCart(){
         for(MenuItem item : cart){
             System.out.printf("%s | %d원 | %d개\n",
-                    item.name, item.price, item.getQuantity());
+                    item.name, item.getPrice(), item.getQuantity());
         }
     }
 
@@ -70,7 +70,7 @@ public class CartManager {
         for (int i=0; i < cart.size(); i++) {
             MenuItem item = cart.get(i);
             System.out.printf("%d. %-13s | %d원 | %s | %d개\n",
-                    i + 1, item.name, item.price, item.description, item.getQuantity());
+                    i + 1, item.name, item.getPrice(), item.description, item.getQuantity());
         }
     }
 

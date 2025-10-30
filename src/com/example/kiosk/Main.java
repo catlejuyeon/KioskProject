@@ -1,5 +1,7 @@
 package com.example.kiosk;
 
+import java.util.Set;
+
 public class Main {
     public static void main(String[] args) {
         //버거 메뉴
@@ -22,6 +24,11 @@ public class Main {
         drinkMenu.addItem(cokeZero);
         drinkMenu.addItem(americano);
 
+        //세트메뉴
+        SetItem dessertSet1 = new SetItem(
+                401, "혈당스파이크 세트",7000,"맛잘알 조합",new String[]{"아이스크림","와플"}, 1000
+        );
+
         //디저트 메뉴
         MenuItem vanillaIceCream = new MenuItem(301,"VanillaIceCream", 3000, "바닐라 향이 나는 소프트아이스크림");
         MenuItem waffle = new MenuItem(302,"Waffle", 4000, "달콤 바삭 와플, 아이스크림이랑 먹으면 최고");
@@ -29,6 +36,7 @@ public class Main {
         Menu dessertsMenu = new Menu("Desserts");
         dessertsMenu.addItem(vanillaIceCream);
         dessertsMenu.addItem(waffle);
+        dessertsMenu.addItem(dessertSet1);
 
         //키오스크
         Kiosk kiosk = new Kiosk();
