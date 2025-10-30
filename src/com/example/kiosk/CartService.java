@@ -59,7 +59,7 @@ public class CartService {
             for(int i=0; i<discounts.length; i++){
                 System.out.println((i + 1) + ". " + discounts[i].getDiscountName());
             }
-            System.out.println("번호를 입력해 주세요: ");
+            System.out.print("번호를 입력해 주세요: ");
 
             try{
                 int choice = inputManager.getIntInput();
@@ -94,7 +94,7 @@ public class CartService {
             System.out.println("1. 부분 취소");
             System.out.println("2. 전체 취소");
             System.out.println("0. 메뉴판");
-            System.out.print("번호를 입력하세요: \n");
+            System.out.print("번호를 입력하세요: ");
             try{
                 int cancelChoice = inputManager.getIntInput();
 
@@ -130,7 +130,7 @@ public class CartService {
             cartManager.displayDetailedCart();
             System.out.println("0. 뒤로가기");
             System.out.println("-------------");
-            System.out.print("취소할 메뉴 번호를 선택하세요: \n");
+            System.out.print("취소할 메뉴 번호를 선택하세요: ");
 
             try {
                 int choice = inputManager.getIntInput();
