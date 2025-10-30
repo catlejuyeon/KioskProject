@@ -175,19 +175,13 @@ SetItem (세트 상품 - 할인 적용)
 ## 🎯 주요 디자인 패턴
 #### 1. 인터페이스 기반 설계
 - Product 인터페이스: 모든 상품의 공통 규격 정의
-- CartStorage 인터페이스: 저장소 추상화 (확장 가능)
 
 #### 2. 상속을 통한 확장
-- SetItem: MenuItem을 상속받아 세트 할인 기능 추가
+- SetItem: MenuItem을 상속받아 디저트 세트(아이스크림+와플) 구현
+- 세트 할인 기능 추가
 - 다형성을 활용한 유연한 상품 관리
 
-#### 3. 의존성 주입 (DI)
-```
-public CartManager(CartStorage storage) {
-    this.storage = storage;
-}
-```
-#### 4. 단일 책임 원칙 (SRP)
+#### 3. 단일 책임 원칙 (SRP)
 - 각 클래스가 하나의 책임만 담당
 - CartManager: 데이터 관리
 - CartService: 비즈니스 로직
@@ -204,7 +198,6 @@ src/com/example/kiosk/
 ├── SetItem.java            # 세트 상품
 ├── CartManager.java        # 장바구니 관리
 ├── CartService.java        # 주문/취소 로직
-├── CartStorage.java        # 저장소 인터페이스
 ├── InputHandler.java       # 입력 검증
 └── Discount.java           # 할인 정책 (Enum)
 ```
@@ -251,5 +244,5 @@ public int getValidQuantity() {
 ## 📈 확장 가능성
 #### 현재 구조의 장점
 - 새로운 상품 타입 추가 용이 (Product 인터페이스 구현)
-- 저장소 변경 가능 (InMemory → Database, File)
+- 메뉴 카테고리 동적 추가
 - 할인 정책 확장 가능 (Discount Enum)
