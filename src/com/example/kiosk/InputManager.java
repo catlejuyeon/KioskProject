@@ -57,6 +57,16 @@ public class InputManager {
     public void clearInputValue(){
         sc.nextLine();
     }
+
+    public Integer getIntegerTryCatch() {
+        try {
+            return getIntInput();
+        } catch (InputMismatchException e) {
+            System.out.println("숫자만 입력해 주세요.");
+            clearInputValue();
+            return getIntegerTryCatch();
+        }
+    }
 }
 
 

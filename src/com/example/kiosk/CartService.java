@@ -31,18 +31,11 @@ public class CartService {
 
             System.out.println("1. 주문     2. 메뉴판");
             System.out.print("번호를 입력하세요: ");
-
-            try{
-                int choice = inputManager.getIntInput();
-
-                if(choice == CANCEL)break;
-                if(choice == CONFIRM){
-                    discountAndOrder();
-                    break;
-                }
-            }catch(IndexOutOfBoundsException e){
-                System.out.println("숫자만 입력해주세요.");
-                inputManager.clearInputValue();
+            Integer choice = inputManager.getIntegerTryCatch();
+            if(choice == CANCEL)break;
+            if(choice == CONFIRM){
+                discountAndOrder();
+                break;
             }
         }
     }
@@ -61,26 +54,21 @@ public class CartService {
             }
             System.out.print("번호를 입력해 주세요: ");
 
-            try{
-                int choice = inputManager.getIntInput();
-
-                if(choice<1 || choice>discounts.length){
-                    System.out.println("잘못된 번호입니다.");
-                    continue;
-                }
-                Discount selectedDiscount = discounts[choice - 1];
-
-                int discountAmount=selectedDiscount.getDiscount(total);
-                int finalPrice = selectedDiscount.getFinalPrice(total);
-
-                System.out.println("할인된 금액: " + discountAmount + "원");
-                System.out.println("최종 금액: " + finalPrice + "원");
-
-                cartManager.clear();
-                break;
-            }catch (IndexOutOfBoundsException e){
-                System.out.println();
+            Integer choice = inputManager.getIntegerTryCatch();
+            if(choice<1 || choice>discounts.length){
+                System.out.println("잘못된 번호입니다.");
+                continue;
             }
+            Discount selectedDiscount = discounts[choice - 1];
+
+            int discountAmount=selectedDiscount.getDiscount(total);
+            int finalPrice = selectedDiscount.getFinalPrice(total);
+
+            System.out.println("할인된 금액: " + discountAmount + "원");
+            System.out.println("최종 금액: " + finalPrice + "원");
+
+            cartManager.clear();
+            break;
         }
     }
 
@@ -95,23 +83,17 @@ public class CartService {
             System.out.println("2. 전체 취소");
             System.out.println("0. 메뉴판");
             System.out.print("번호를 입력하세요: ");
-            try{
-                int cancelChoice = inputManager.getIntInput();
 
-                if(cancelChoice==EXIT) break;
+            Integer cancelChoice = inputManager.getIntegerTryCatch();
+            if(cancelChoice==EXIT) break;
 
-                if(cancelChoice == 2){
-                    cancelAllItems();
-                    break;
-                }
+            if(cancelChoice == 2){
+                cancelAllItems();
+                break;
+            }
 
-                if(cancelChoice==1){
-                    cancelPartialOrder();
-                }
-
-            }catch(InputMismatchException e){
-                System.out.println("숫자만 입력해주세요.");
-                inputManager.clearInputValue();
+            if(cancelChoice==1){
+                cancelPartialOrder();
             }
         }
     }
@@ -132,20 +114,12 @@ public class CartService {
             System.out.println("-------------");
             System.out.print("취소할 메뉴 번호를 선택하세요: ");
 
-            try {
-                int choice = inputManager.getIntInput();
-                if(choice==EXIT) return;
+            Integer choice = inputManager.getIntegerTryCatch();
 
-                if (choice<1 || choice> cartManager.size()){
-                    System.out.println("잘못된 번호입니다.");
-                    continue;
-                }
-
-                editCartItem(cartManager.getItem(choice-1));
-            }catch (InputMismatchException e){
-                System.out.println("숫자만 입력해 주세요.");
-                inputManager.clearInputValue();
+            if (choice<1 || choice> cartManager.size()){
+                System.out.println("잘못된 번호입니다.");
             }
+
         }
     }
 
@@ -157,19 +131,17 @@ public class CartService {
         System.out.println("0. 뒤로가기");
         System.out.print("번호를 선택하세요: ");
 
-        try {
-            int editChoice = inputManager.getIntInput();
-            if(editChoice==EXIT) return;
+        Integer editChoice = inputManager.getIntegerTryCatch();
 
-            if(editChoice==1){
-                changeQuantity(selectedItem);
-            }else if(editChoice==2){
-                deleteItem(selectedItem);
-            }
-        }catch (InputMismatchException e){
-            System.out.println("숫자만 입력해 주세요.");
-            inputManager.clearInputValue();
+        if(editChoice==EXIT) return;
+
+        if(editChoice==1){
+            changeQuantity(selectedItem);
+        }else if(editChoice==2){
+            deleteItem(selectedItem);
         }
+
+
     }
 
     //수량 변경

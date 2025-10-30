@@ -46,41 +46,33 @@ public class Kiosk {
             System.out.println("---------------------");
             System.out.println("0. 종료");
             System.out.print("번호를 선택하세요 : ");
+            Integer choice = inputManager.getIntegerTryCatch();
+            if (choice == EXIT) {
+                System.out.println("프로그램을 종료합니다.");
+                break;
+            }
 
-            try {
-                int choice = sc.nextInt();
+            if (!cartManager.isEmpty()) {
+                maxOption=menus.size();
+                maxOption += 2; // Orders, Cancel 추가
+            }
 
-                if (choice == EXIT) {
-                    System.out.println("프로그램을 종료합니다.");
-                    break;
-                }
+            //예외적인 상황?
+            //try-catch에서는 자료형,네트워크,파일 등의 오류만 잡아줌.
+            //99처럼 숫자라는 자료형은 맞지만 없는 메뉴 번호 선택시는 잡아주질 못함.
+            //그래서 범위를 벗어난 숫자 검증 로직 추가
+            if (choice < 1 || choice > maxOption) {
+                System.out.println("없는 번호입니다. 다시 입력해주세요.");
+                continue;  // 다음 반복으로
+            }
 
-                if (!cartManager.isEmpty()) {
-                    maxOption=menus.size();
-                    maxOption += 2; // Orders, Cancel 추가
-                }
-
-                //예외적인 상황?
-                //try-catch에서는 자료형,네트워크,파일 등의 오류만 잡아줌.
-                //99처럼 숫자라는 자료형은 맞지만 없는 메뉴 번호 선택시는 잡아주질 못함.
-                //그래서 범위를 벗어난 숫자 검증 로직 추가
-                if (choice < 1 || choice > maxOption) {
-                    System.out.println("없는 번호입니다. 다시 입력해주세요.");
-                    continue;  // 다음 반복으로
-                }
-
-                //장바구니 메뉴 처리
-                if(choice <= menus.size()) {
-                    showSubMenu(menus.get(choice - 1));
-                } else if(!cartManager.isEmpty() && choice == ORDERS_MENU) {
-                    cartService.showCartAndOrder();
-                } else if(choice == CANCEL_MENU) {
-                    cartService.showCancel();
-                }
-
-            } catch (InputMismatchException e) {
-                System.out.println("숫자만 입력해주세요!");
-                sc.nextLine();
+            //장바구니 메뉴 처리
+            if(choice <= menus.size()) {
+                showSubMenu(menus.get(choice - 1));
+            } else if(!cartManager.isEmpty() && choice == ORDERS_MENU) {
+                cartService.showCartAndOrder();
+            } else if(choice == CANCEL_MENU) {
+                cartService.showCancel();
             }
         }
         sc.close();
@@ -91,34 +83,26 @@ public class Kiosk {
         while (true) {
             menu.showMenu();
             System.out.print("번호를 선택하세요 : ");
+            Integer subChoice = inputManager.getIntegerTryCatch();
+            //뒤로가기
+            if(subChoice==EXIT) break;
 
-            try{
-                int subChoice = sc.nextInt();
-
-                //뒤로가기
-                if(subChoice==EXIT) break;
-
-                //메뉴 번호 검증
-                if(subChoice < 1 || subChoice>menu.getItemCount()){
-                    System.out.println("없는 번호입니다. 다시 입력해주세요.");
-                    continue;
-                }
-
-                //정상 처리
-                MenuItem item = menu.selectMenuItem(subChoice);
-                System.out.print("\n선택한 메뉴: ");
-                item.display();
-
-                int quantity = inputManager.getValidQuantity();
-
-                if(inputManager.getConfirm("장바구니에 추가하시겠습니까?")){
-                    cartManager.addItem(item,quantity);
-                }else break;
-
-            }catch(InputMismatchException e){
-                System.out.println("숫자만 입력해주세요.");
-                sc.nextLine();
+            //메뉴 번호 검증
+            if(subChoice < 1 || subChoice>menu.getItemCount()){
+                System.out.println("없는 번호입니다. 다시 입력해주세요.");
+                continue;
             }
+
+            //정상 처리
+            MenuItem item = menu.selectMenuItem(subChoice);
+            System.out.print("\n선택한 메뉴: ");
+            item.display();
+
+            int quantity = inputManager.getValidQuantity();
+
+            if(inputManager.getConfirm("장바구니에 추가하시겠습니까?")){
+                cartManager.addItem(item,quantity);
+            }else break;
         }
     }
 }
